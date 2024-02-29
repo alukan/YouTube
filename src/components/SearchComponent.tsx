@@ -1,0 +1,52 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { VideoFromSearch } from '../types/PreviewTypes';
+import VideoPreviewContainer from './Previews/VideoPreviewContainer';
+import { SearchContainer, StyledForm, StyledInput, StyledButton } from '../styles/SearchStyles';
+const SearchComponent: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [videos, setVideos] = useState<VideoFromSearch[]>([]);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const response = await axios.get<VideoFromSearch[]>('https://youtube.thorsteinsson.is/api/search?q=react_Web');
+        console.log(response.data[0].snippet.thumbnails.url);
+        setVideos(response.data.slice(0, 15));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchVideos();
+  }, []);
+
+  const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const response = await axios.get<VideoFromSearch[]>(`https://youtube.thorsteinsson.is/api/search?q=${searchQuery}`);
+      setVideos(response.data);
+    } catch (error) {
+      console.error('Failed to fetch videos:', error);
+    }
+  };
+
+  return (
+    <>
+    <SearchContainer>
+      <StyledForm onSubmit={handleSearch}>
+        <StyledInput
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search for videos"
+        />
+        <StyledButton type="submit">Search</StyledButton>
+      </StyledForm>
+    </SearchContainer>
+    <VideoPreviewContainer items={videos} />
+    </>
+  );
+};
+
+export default SearchComponent;
