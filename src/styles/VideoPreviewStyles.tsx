@@ -5,20 +5,8 @@ export const StyledVideoPreview = styled.div`
   img {
     width: 100%;
     height: auto;
-    max-width: 360px;
   }
 
-  @media (max-width: 768px) {
-    img {
-      max-width: 240px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    img {
-      max-width: 180px;
-    }
-  }
   display: block;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
