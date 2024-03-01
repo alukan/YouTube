@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { PlayerContainer } from '../../styles/VideoPageStyles';
+import { PlayerOptions, Player } from '../../types/PlayerTypes'
 
 interface YouTubePlayerProps {
   videoId: string;
@@ -8,8 +9,10 @@ interface YouTubePlayerProps {
 declare global {
   interface Window {
     onYouTubeIframeAPIReady: () => void;
-    YT: any;
-    player?: any;
+    YT: {
+      Player: new (element: HTMLIFrameElement | HTMLDivElement , options: PlayerOptions) => Player;
+    },
+    player: Player | null;
   }
 }
 
@@ -23,13 +26,15 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ videoId }) => {
         window.player.loadVideoById(videoId);
       } else {
         console.log(videoId)
-        window.player = new window.YT.Player(playerRef.current, {
-          height: '100%', 
-          width: '100%', 
-          videoId: videoId,
-        });
+        if (playerRef.current) {
+          window.player = new window.YT.Player(playerRef.current, {
+            height: '100%',
+            width: '100%',
+            videoId: videoId,
+          });
+        }
       }
-      
+
     };
 
 
