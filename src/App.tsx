@@ -31,7 +31,7 @@ const App: React.FC = () => {
     <BrowserRouter>
       {!onLogin && <Header setShow={setShow} />}
       <MainContent>
-        {show && <LeftSlideMenu />}
+        {!onLogin && show && <LeftSlideMenu />}
         <Routes>
           <Route path="*" element={(!userState && !userLocal) ? <Navigate to="/login" replace /> : <Navigate to="/" replace />} />
           <Route path="/video" element={(!userState && !userLocal) ? <Navigate to="/login" replace /> : <VideoPreviewsPage />} />

@@ -16,6 +16,8 @@ const MyPlaylistsComponent: React.FC<{ username: string | null }> = ({ username 
             if (!username) {
                 username = localStorage.getItem('user') as string;
             }
+            const sendingUser = localStorage.getItem('user') as string;
+
 
             //check existing
             try {
@@ -34,7 +36,7 @@ const MyPlaylistsComponent: React.FC<{ username: string | null }> = ({ username 
             //get playlists
             try {
                 const response = await axios.post(`/user/${username}/playlists`, {
-                    fromUser: username,
+                    fromUser: sendingUser,
                 });
 
                 setPlaylists(response.data);
