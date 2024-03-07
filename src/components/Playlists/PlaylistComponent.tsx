@@ -1,33 +1,48 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import VideoPreviewContainer from '../Previews/VideoPreviewContainer';
+import { VideoFromSearch } from '../../types/PreviewTypes';
 
 const OnePlaylist: React.FC = () => {
   const [searchParams] = useSearchParams();
-  const playlistId = searchParams.get('id'); 
+  const [videos, setVideos] = useState<VideoFromSearch[]>([]);
 
   useEffect(() => {
-    if (!playlistId) {
-      console.log('Playlist ID is required');
-      return;
-    }
+    const playlistId = searchParams.get('id');
 
     const fetchPlaylist = async () => {
       try {
-        const response = await axios.get(`https://youtube.thorsteinsson.is/api/playlists/${playlistId}`);
-        console.log(response.data);
+        const playlistResponse = await axios.get(`https://youtube.thorsteinsson.is/api/playlists/${playlistId}`);
+        const videos = [];
+        for (const video of playlistResponse.data.videos) {
+          const result = await axios.get(`https://youtube.thorsteinsson.is/api/videos/${video.videoId}`);
+
+          const structuredVideo: VideoFromSearch = {
+            id: {
+              videoId: result.data.videoId
+            },
+            title: result.data.title,
+            description: result.data.description,
+            snippet: {
+              thumbnails: {
+                url: result.data.thumbnailUrl
+              }
+            }
+          }
+          videos.unshift(structuredVideo);
+        }
+        setVideos(videos);
       } catch (error) {
-        console.error('Error fetching playlist:', error);
+        console.error('Error fetching playlist details:', error);
       }
     };
 
     fetchPlaylist();
-  }, [playlistId]); 
+  }, []);
 
   return (
-    <div>
-      Fetching playlist data for ID: {playlistId}
-    </div>
+    <>{videos.length > 0 ? <VideoPreviewContainer items={videos}/> : <h2>It is empty</h2>}</>
   );
 };
 

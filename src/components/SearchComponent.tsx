@@ -46,6 +46,7 @@ const SearchComponent: React.FC = () => {
           <StyledButton type="submit">Search</StyledButton>
         </SearchForm>
       </SearchContainer>
+      
       <VideoPreviewContainer items={videos} />
     </>
   );
