@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { VideoFromSearch } from '../types/PreviewTypes';
 import VideoPreviewContainer from './Previews/VideoPreviewContainer';
-import { SearchContainer, StyledForm, StyledInput, StyledButton } from '../styles/SearchStyles';
+import { SearchContainer, SearchForm } from '../styles/SearchStyles';
+import { StyledInput, StyledButton } from '../styles/RegularStyles';
+
 const SearchComponent: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [videos, setVideos] = useState<VideoFromSearch[]>([]);
@@ -33,18 +35,18 @@ const SearchComponent: React.FC = () => {
 
   return (
     <>
-    <SearchContainer>
-      <StyledForm onSubmit={handleSearch}>
-        <StyledInput
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search for videos"
-        />
-        <StyledButton type="submit">Search</StyledButton>
-      </StyledForm>
-    </SearchContainer>
-    <VideoPreviewContainer items={videos} />
+      <SearchContainer>
+        <SearchForm onSubmit={handleSearch}>
+          <StyledInput
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search for videos"
+          />
+          <StyledButton type="submit">Search</StyledButton>
+        </SearchForm>
+      </SearchContainer>
+      <VideoPreviewContainer items={videos} />
     </>
   );
 };

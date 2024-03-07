@@ -18,12 +18,13 @@ const App: React.FC = () => {
   const { state: onLogin } = useOnLoginContext();
   const { state: userState, setState: setUserState } = useUserContext();
 
-  useEffect(()=>{
+  useEffect(() => {
     const userLocal = localStorage.getItem('user');
-    if (userLocal){
+    if (userLocal) {
       setUserState(userLocal)
     }
   }, [])
+  
   return (
     <BrowserRouter>
       {!onLogin && <Header setShow={setShow} />}

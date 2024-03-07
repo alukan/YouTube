@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useOnLoginContext, useUserContext } from '../StateContext';
-import axios from 'axios';
+import axios, { isAxiosError } from '../axiosConfig';
+import { StyledInput, StyledButton, StyledForm, AlignedContainer } from '../styles/RegularStyles';
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
@@ -10,9 +11,9 @@ const LoginPage = () => {
     const { setState: setUserState } = useUserContext();
 
     useEffect(() => setOnLogin(true), [])
-    axios.defaults.baseURL = 'http://localhost:3001';
 
-    const handleLogin = async () => {
+    const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         try {
             const response = await axios.get(`/userExists/${username}`);
 
@@ -24,8 +25,9 @@ const LoginPage = () => {
             } else {
                 alert('No such user exists. Please sign up.');
             }
-        } catch (error) {
-            if (axios.isAxiosError(error) && error.response) {
+            //eslint-disable-next-line
+        } catch (error: any) {
+            if (isAxiosError(error) && error.response) {
                 alert(error.response.data.error);
             }
             else {
@@ -35,17 +37,19 @@ const LoginPage = () => {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            <input
-                type="text"
-                placeholder="Enter your username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
-            <button onClick={handleLogin}>Login</button>
-            <p>Don&apos;t have an account?<Link to="/signup"> Sign up</Link></p>
-        </div>
+        <AlignedContainer>
+            <StyledForm onSubmit={handleLogin}>
+                <h2>Login</h2>
+                <StyledInput
+                    type="text"
+                    placeholder="Enter your username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <StyledButton type='submit'>Login</StyledButton>
+                <p>Don&apos;t have an account?<Link to="/signup"> Sign up</Link></p>
+            </StyledForm>
+        </AlignedContainer>
     );
 };
 

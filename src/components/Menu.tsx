@@ -7,6 +7,7 @@ const LeftSlideMenu: React.FC = () => {
             <MenuButton>Menu Item 1</MenuButton>
             <MenuButton>Menu Item 2</MenuButton>
             <MenuButton>Menu Item 3</MenuButton>
+            <MenuButton>Menu Item 3</MenuButton>
         </MenuContainer>
     );
 };
