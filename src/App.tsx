@@ -8,6 +8,7 @@ import LeftSlideMenu from './components/Menu';
 import { useOnLoginContext, useUserContext } from './StateContext';
 import LoginPage from './pages/Login'
 import SignupPage from './pages/signUp';
+import Playlist from './pages/Playlists'; 
 
 const MainContent = styled.div`
   padding-top: 50px;
@@ -17,25 +18,27 @@ const App: React.FC = () => {
   const [show, setShow] = useState(false);
   const { state: onLogin } = useOnLoginContext();
   const { state: userState, setState: setUserState } = useUserContext();
+  const userLocal = localStorage.getItem('user')
 
   useEffect(() => {
-    const userLocal = localStorage.getItem('user');
     if (userLocal) {
       setUserState(userLocal)
+      console.log(userState)
     }
   }, [])
-  
+
   return (
     <BrowserRouter>
       {!onLogin && <Header setShow={setShow} />}
       <MainContent>
         {show && <LeftSlideMenu />}
         <Routes>
-          <Route path="*" element={!userState && <Navigate to="/login" replace />} />
-          <Route path="/video" element={!userState ? <Navigate to="/login" replace /> : <VideoPreviewsPage />} />
-          <Route path="/" element={!userState ? <Navigate to="/login" replace /> : <Main />} />
+          <Route path="*" element={(!userState && !userLocal) ? <Navigate to="/login" replace /> : <Navigate to="/" replace />} />
+          <Route path="/video" element={(!userState && !userLocal) ? <Navigate to="/login" replace /> : <VideoPreviewsPage />} />
+          <Route path="/" element={(!userState && !userLocal) ? <Navigate to="/login" replace /> : <Main />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/playlist" element={(!userState && !userLocal) ? <Navigate to="/login" replace /> : <Playlist />} />
         </Routes>
       </MainContent>
     </BrowserRouter>

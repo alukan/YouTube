@@ -46,3 +46,25 @@ export const AlignedContainer = styled.div`
   padding: 20px;
   box-sizing: border-box;
 `;
+
+
+export const StyledList = styled.ul`
+  list-style: none; 
+  padding: 0; 
+  margin: 20px 0; 
+`;
+
+export const StyledListItem = styled.li`
+  display: flex; 
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+`;
