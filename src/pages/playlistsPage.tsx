@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import MyPlaylistsComponent from '../components/Playlists/MyPlaylists';
-import OnePlaylist from '../components/Playlists/PlaylistComponent';
+import OnePlaylist from '../components/Playlists/OnePlaylist';
 
 const Playlist: React.FC = () => {
     const [searchParams] = useSearchParams();

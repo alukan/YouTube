@@ -11,10 +11,6 @@ export interface VideoFromSearch {
     }
 }
 
-export interface VideoFromSearchObject {
-    video: VideoFromSearch;
-}
-
 export interface VideoFromSearchArrayProp {
     items: VideoFromSearch[];
 }

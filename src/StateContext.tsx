@@ -1,8 +1,9 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react';
+import { VideoFromSearch } from './types/PreviewTypes';
 
-interface StateStringArrayProps {
-    state: string[];
-    setState: React.Dispatch<React.SetStateAction<string[]>>;
+interface StateVideoFromSearchArrayProps {
+    state: VideoFromSearch[];
+    setState: React.Dispatch<React.SetStateAction<VideoFromSearch[]>>;
 }
 
 interface StateStringProps {
@@ -17,28 +18,28 @@ interface StateBooleanProps {
 
 
 
-const StateNamesContext = createContext<StateStringArrayProps | undefined>(undefined);
+const StateOnGoingVideosContext = createContext<StateVideoFromSearchArrayProps | undefined>(undefined);
 const StateUserContext = createContext<StateStringProps | undefined>(undefined);
 const OnLoginStateContext = createContext<StateBooleanProps | undefined>(undefined);
 
 export function StateProvider({ children }: { children: ReactNode }) {
-    const [names, setNames] = useState<string[]>([]);
+    const [onGoing, setOnGoing] = useState<VideoFromSearch[]>([]);
     const [user, setUser] = useState<string>('');
     const [onLogin, setOnLogin] = useState(false)
 
     return (
-        <StateNamesContext.Provider value={{ state: names, setState: setNames }}>
+        <StateOnGoingVideosContext.Provider value={{ state: onGoing, setState: setOnGoing }}>
             <StateUserContext.Provider value={{ state: user, setState: setUser }}>
                 <OnLoginStateContext.Provider value={{ state: onLogin, setState: setOnLogin }}>
                     {children}
                 </OnLoginStateContext.Provider>
             </StateUserContext.Provider>
-        </StateNamesContext.Provider>
+        </StateOnGoingVideosContext.Provider>
     );
 }
 
-export function useNamesContext() {
-    const context = useContext(StateNamesContext);
+export function useOnGoingContext() {
+    const context = useContext(StateOnGoingVideosContext);
     if (!context) {
         throw new Error('useStateContext must be used within a StateProvider');
     }

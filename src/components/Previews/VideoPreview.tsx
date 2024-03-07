@@ -1,21 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { VideoFromSearchObject } from '../../types/PreviewTypes';
+import { VideoFromSearch } from '../../types/PreviewTypes';
 import { StyledVideoPreview } from '../../styles/VideoPreviewStyles';
+import { useOnGoingContext } from '../../StateContext';
 
 
-
-const VideoPreview: React.FC<VideoFromSearchObject> = ({ video }) => {
+const VideoPreview: React.FC<{ videos: VideoFromSearch[], index: number }> = ({ videos, index }) => {
+    const { setState: setOnGoing } = useOnGoingContext();
     return (
+        <Link to={`/video?v=${videos[index].id.videoId}`}
+            onClick={() => { setOnGoing(videos.slice(index)) }}>
+            <StyledVideoPreview>
 
-            <Link to={`/video?v=${video.id.videoId}`}>
-                <StyledVideoPreview>
-                
-                    <img src={video.snippet.thumbnails.url} alt={video.title} />
-                    <h3>{video.title}</h3>
+                <img src={videos[index].snippet.thumbnails.url} alt={videos[index].title} />
+                <h3>{videos[index].title}</h3>
 
-                </StyledVideoPreview>
-            </Link>
+            </StyledVideoPreview>
+        </Link>
 
     );
 };

@@ -19,13 +19,12 @@ const LeftSlideMenu: React.FC = () => {
         }
 
         try {
-            const response = await axios.post('/addPlaylist', {
+            await axios.post('/addPlaylist', {
                 username,
                 isPrivate,
                 playlistName
             });
 
-            console.log(response.data.message);
             alert('Playlist added successfully.');
 
             //eslint-disable-next-line

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import VideoPreviewsPage from './pages/videoPage';
-import Main from './pages/Main';
+import Main from './pages/main';
 import Header from './components/Header';
 import styled from 'styled-components';
 import LeftSlideMenu from './components/Menu';
 import { useOnLoginContext, useUserContext } from './StateContext';
-import LoginPage from './pages/Login'
+import LoginPage from './pages/login'
 import SignupPage from './pages/signUp';
-import Playlist from './pages/Playlists'; 
+import Playlist from './pages/playlistsPage'; 
 
 const MainContent = styled.div`
   padding-top: 50px;
@@ -23,7 +23,6 @@ const App: React.FC = () => {
   useEffect(() => {
     if (userLocal) {
       setUserState(userLocal)
-      console.log(userState)
     }
   }, [])
 

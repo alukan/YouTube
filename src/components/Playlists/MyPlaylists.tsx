@@ -79,7 +79,7 @@ const MyPlaylistsComponent: React.FC<{ username: string | null }> = ({ username 
                                     await axios.delete(`/user/${sendingUser}/playlist/${playlist.id}`)
                                     playlists.unshift({ id: playlist.id, name: playlist.name }); // just to trigger useEffect
                                 } catch (error) {
-                                    console.log("Could not delete: " + error)
+                                    console.error("Could not delete: " + error)
                                 }
                             }}>delete</StyledButton> : null}
                         </StyledListItem>

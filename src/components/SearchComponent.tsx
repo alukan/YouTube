@@ -13,7 +13,6 @@ const SearchComponent: React.FC = () => {
     const fetchVideos = async () => {
       try {
         const response = await axios.get<VideoFromSearch[]>('https://youtube.thorsteinsson.is/api/search?q=react_Web');
-        console.log(response.data[0].snippet.thumbnails.url);
         setVideos(response.data.slice(0, 15));
       } catch (error) {
         console.error('Error fetching data:', error);

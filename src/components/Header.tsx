@@ -2,9 +2,8 @@ import React from 'react';
 import { FiHome, FiArrowLeft, FiMoreHorizontal } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 import { StyledHeader, BackButton, StyledNav } from '../styles/HeaderStyles'
-import { ShowMenuProp } from '../types/MenuTypes';
 
-const Header: React.FC<ShowMenuProp> = ({ setShow }) => {
+const Header: React.FC<{setShow: React.Dispatch<React.SetStateAction<boolean>>}> = ({ setShow }) => {
   const navigate = useNavigate();
   return (
     <StyledHeader>
