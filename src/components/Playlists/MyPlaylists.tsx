@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios, { isAxiosError } from '../../axiosConfig';
-import { StyledList, StyledListItem } from '../../styles/RegularStyles';
+import { StyledList, StyledListItem, StyledButton } from '../../styles/RegularStyles';
 import { Link } from 'react-router-dom';
 
 interface PlaylistItem {
@@ -10,13 +10,14 @@ interface PlaylistItem {
 
 const MyPlaylistsComponent: React.FC<{ username: string | null }> = ({ username }) => {
     const [playlists, setPlaylists] = useState<PlaylistItem[]>([]);
+    const ownRepo = useRef<boolean>(!username);
+    const sendingUser = localStorage.getItem('user') as string;
 
     useEffect(() => {
         const fetchPlaylists = async () => {
             if (!username) {
                 username = localStorage.getItem('user') as string;
             }
-            const sendingUser = localStorage.getItem('user') as string;
 
 
             //check existing
@@ -53,31 +54,40 @@ const MyPlaylistsComponent: React.FC<{ username: string | null }> = ({ username 
         };
 
         fetchPlaylists();
-    }, []);
+    }, [playlists]);
 
-    return ( // StyledList, StyledListItem 
-        <div
-            style={{
-                width: '33.33%',
-                margin: '0 auto',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-            }}
-        >
-            <h2>Playlists</h2>
-            <StyledList>
-                {playlists.map((playlist) => (
 
-                    <Link key={playlist.id} to={`/playlist?id=${playlist.id}`}>
-                        <StyledListItem >
-                            {playlist.name}
+    return (
+        <>
+            {playlists.length > 0 ? <div
+                style={{
+                    width: '33.3%',
+                    margin: '0 auto',
+                    flexDirection: 'column',
+                    alignItems: 'center'
+                }}
+            >
+                <h2>Playlists</h2>
+                <StyledList>
+                    {playlists.map((playlist) => (
+                        <StyledListItem key={playlist.id}>
+                            <Link to={`/playlist?id=${playlist.id}`}>
+                                {playlist.name}
+                            </Link>
+                            {ownRepo ? <StyledButton onClick={async () => {
+                                try {
+                                    await axios.delete(`/user/${sendingUser}/playlist/${playlist.id}`)
+                                    playlists.unshift({ id: playlist.id, name: playlist.name }); // just to trigger useEffect
+                                } catch (error) {
+                                    console.log("Could not delete: " + error)
+                                }
+                            }}>delete</StyledButton> : null}
                         </StyledListItem>
-                    </Link>
 
-                ))}
-            </StyledList>
-        </div>
+                    ))}
+                </StyledList>
+            </div> : <h2>User has no publick playlists</h2>}
+        </>
     );
 };
 

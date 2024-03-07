@@ -12,7 +12,6 @@ const LeftSlideMenu: React.FC = () => {
 
     const createHandle = async (event: React.FormEvent) => {
         event.preventDefault();
-        alert(playlistName)
         const username = localStorage.getItem('user');
         if (!username) {
             alert('No username found. Please log in.');
