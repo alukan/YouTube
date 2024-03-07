@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import VideoPreviewsPage from './pages/videoPage';
-import Main from './pages/main';
+import Main from './pages/Main';
 import Header from './components/Header';
 import styled from 'styled-components';
 import LeftSlideMenu from './components/Menu';
 import { useOnLoginContext, useUserContext } from './StateContext';
-import LoginPage from './pages/login'
+import LoginPage from './pages/Login'
 import SignupPage from './pages/signUp';
 import Playlist from './pages/playlistsPage'; 
 
