@@ -74,14 +74,14 @@ const MyPlaylistsComponent: React.FC<{ username: string | null }> = ({ username 
                             <Link to={`/playlist?id=${playlist.id}`}>
                                 {playlist.name}
                             </Link>
-                            {ownRepo ? <StyledButton onClick={async () => {
+                            {ownRepo.current && <StyledButton onClick={async () => {
                                 try {
-                                    await axios.delete(`/user/${sendingUser}/playlist/${playlist.id}`)
+                                    await axios.delete(`/user/${username}/playlist/${playlist.id}`)
                                     playlists.unshift({ id: playlist.id, name: playlist.name }); // just to trigger useEffect
                                 } catch (error) {
                                     console.error("Could not delete: " + error)
                                 }
-                            }}>delete</StyledButton> : null}
+                            }}>delete</StyledButton>}
                         </StyledListItem>
 
                     ))}
