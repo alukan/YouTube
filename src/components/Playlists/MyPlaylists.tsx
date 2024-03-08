@@ -18,7 +18,7 @@ const MyPlaylistsComponent: React.FC<{ username: string | null }> = ({ username 
             if (!username) {
                 username = localStorage.getItem('user') as string;
             }
-
+            ownRepo.current = username === sendingUser;
 
             //check existing
             try {
